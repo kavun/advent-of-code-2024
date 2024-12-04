@@ -1,4 +1,5 @@
-﻿using adventofcode2024;
+﻿using System.Diagnostics;
+using adventofcode2024;
 using Spectre.Console;
 
 AnsiConsole.MarkupLine("""
@@ -28,12 +29,19 @@ _ = dayType ?? throw new InvalidOperationException($"No matching day found for {
 var day = Activator.CreateInstance(dayType) as IDay;
 _ = day ?? throw new InvalidOperationException($"Could not create instance of IDay for {inputFilePath}");
 
+var sw = Stopwatch.StartNew();
+
 var answer = day.Solve(File.ReadLines(inputFilePath));
 
+sw.Stop();
+
 AnsiConsole.Write(new Panel($"""
-    [yellow]Part 1[/]: {answer.Part1}
-    [yellow]Part 2[/]: {answer.Part2}
+    [grey]Part 1:[/] {answer.Part1}
+    [grey]Part 2:[/] {answer.Part2}
+
+    [grey]{sw.ElapsedMilliseconds} ms[/]
     """)
 {
-    Header = new PanelHeader($"[red]{dayName}[/]")
+    Header = new PanelHeader($"[yellow]{dayName}[/]"),
+    BorderStyle = new Style(foreground: Color.Green)
 });

@@ -1,6 +1,6 @@
 ﻿namespace adventofcode2024.UnitTests;
 
-public class Day1Tests
+public class Day01Tests
 {
     [Test]
     [Arguments("""
