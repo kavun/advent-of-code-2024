@@ -10,7 +10,7 @@ public class Day1Tests
         1   3
         3   9
         3   3
-        """, 11, 0)]
+        """, 11, 31)]
     public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
         var actualAnswer = new Day01().Solve(input.Split(Environment.NewLine));
