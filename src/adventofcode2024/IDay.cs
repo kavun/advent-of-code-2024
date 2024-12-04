@@ -2,6 +2,11 @@
 
 public interface IDay
 {
-    long Part1(string input);
-    long Part2(string input);
+    Answer Solve(IEnumerable<string> lines);
+}
+
+public class Answer
+{
+    public long Part1 { get; set; }
+    public long Part2 { get; set; }
 }

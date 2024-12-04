@@ -10,11 +10,12 @@ public class Day1Tests
         1   3
         3   9
         3   3
-        """, 11)]
-    public async Task Part1(string input, long expectedAnswer)
+        """, 11, 0)]
+    public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
-        var actualAnswer = new Day1().Part1(input);
+        var actualAnswer = new Day01().Solve(input.Split(Environment.NewLine));
 
-        await Assert.That(actualAnswer).IsEqualTo(expectedAnswer);
+        await Assert.That(actualAnswer.Part1).IsEqualTo(expectedPart1);
+        await Assert.That(actualAnswer.Part2).IsEqualTo(expectedPart2);
     }
 }

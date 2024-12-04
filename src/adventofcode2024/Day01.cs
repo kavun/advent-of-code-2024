@@ -1,11 +1,10 @@
 ﻿namespace adventofcode2024;
 
-public class Day1 : IDay
+public class Day01 : IDay
 {
-    public long Part1(string input)
+    public Answer Solve(IEnumerable<string> lines)
     {
-        var pairs = input
-            .Split(Environment.NewLine)
+        var pairs = lines
             .Select(l => l
                 .Split(" ", StringSplitOptions.RemoveEmptyEntries)
                 .Select(e => int.Parse(e)));
@@ -22,11 +21,9 @@ public class Day1 : IDay
             total += Math.Abs(item2 - item1);
         }
 
-        return total;
-    }
-
-    public long Part2(string input)
-    {
-        return 0;
+        return new Answer()
+        {
+            Part1 = total
+        };
     }
 }
