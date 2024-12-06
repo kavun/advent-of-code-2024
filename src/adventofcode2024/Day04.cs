@@ -118,17 +118,17 @@ public partial class Day04 : IDay
         foreach (var masLayout in layoutOptions)
         {
             var optionValid = true;
-            foreach (var requirement in masLayout)
+            foreach (var (dx, dy, code) in masLayout)
             {
-                int nextX = a.x + requirement.dx;
-                int nextY = a.y + requirement.dy;
+                int nextX = a.x + dx;
+                int nextY = a.y + dy;
                 if (IsOutOfBounds(xy, nextX, nextY))
                 {
                     optionValid = false;
                     break;
                 }
 
-                if (xy[nextX][nextY] != requirement.code)
+                if (xy[nextX][nextY] != code)
                 {
                     optionValid = false;
                     break;
