@@ -14,7 +14,7 @@ public class Day04Tests
         SAXAMASAAA
         MAMMMXMMMM
         MXMXAXMASX
-        """, 18, 0)]
+        """, 18, 9)]
     public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
         var actualAnswer = new Day04().Solve(input.Split(Environment.NewLine));

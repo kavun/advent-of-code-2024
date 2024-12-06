@@ -8,6 +8,7 @@ public partial class Day04 : IDay
         var part2 = 0L;
 
         var allXs = new List<(int x, int y)>();
+        var allAs = new List<(int x, int y)>();
 
         var grid = lines.Select((l, x) =>
             l.Select((ltr, y) =>
@@ -24,6 +25,11 @@ public partial class Day04 : IDay
                 if (code == 1)
                 {
                     allXs.Add((x, y));
+                }
+
+                if (code == 3)
+                {
+                    allAs.Add((x, y));
                 }
 
                 return code;
@@ -44,7 +50,12 @@ public partial class Day04 : IDay
                     }
                 }
             }
+        }
 
+        foreach (var a in allAs)
+        {
+            var mas = CheckMas(a, grid);
+            part2 += mas;
         }
 
         return new Answer()
@@ -54,13 +65,94 @@ public partial class Day04 : IDay
         };
     }
 
+    private int CheckMas((int x, int y) a, int[][] xy)
+    {
+        List<List<(int dx, int dy, int code)>> layoutOptions = [
+            [
+                /*
+                M M
+                 A
+                S S
+                */
+                (-1, -1, 2),
+                (1, 1, 4),
+                (1, -1, 2),
+                (-1, 1, 4)
+            ],
+            [
+                /*
+                S M
+                 A
+                S M
+                */
+                (-1, -1, 4),
+                (1, 1, 2),
+                (1, -1, 2),
+                (-1, 1, 4)
+            ],
+            [
+                /*
+                S S
+                 A
+                M M
+                */
+                (-1, -1, 4),
+                (1, 1, 2),
+                (1, -1, 4),
+                (-1, 1, 2)
+            ],
+            [
+                /*
+                M S
+                 A
+                M S
+                */
+                (-1, -1, 2),
+                (1, 1, 4),
+                (1, -1, 4),
+                (-1, 1, 2)
+            ]
+        ];
+
+        var validOptions = 0;
+        foreach (var masLayout in layoutOptions)
+        {
+            var optionValid = true;
+            foreach (var requirement in masLayout)
+            {
+                int nextX = a.x + requirement.dx;
+                int nextY = a.y + requirement.dy;
+                if (IsOutOfBounds(xy, nextX, nextY))
+                {
+                    optionValid = false;
+                    break;
+                }
+
+                if (xy[nextX][nextY] != requirement.code)
+                {
+                    optionValid = false;
+                    break;
+                }
+            }
+
+            validOptions += optionValid ? 1 : 0;
+        }
+
+        return validOptions;
+    }
+
+    private static bool IsOutOfBounds(int[][] xy, int nextX, int nextY)
+    {
+        return nextX < 0 || nextX > xy[0].Length - 1 || nextY < 0 || nextY > xy.Length - 1;
+    }
+
     private IEnumerable<((int x, int y), (int dx, int dy))> GetAdj((int x, int y) point, int[][] xy, int code, (int dx, int dy)? dir = null)
     {
         if (dir != null)
         {
             int nextX = point.x + dir.Value.dx;
             int nextY = point.y + dir.Value.dy;
-            if (nextX < 0 || nextX > xy[point.x].Length - 1 || nextY < 0 || nextY > xy.Length - 1)
+            if (IsOutOfBounds(xy, nextX, nextY))
             {
                 yield break;
             }
@@ -88,7 +180,7 @@ public partial class Day04 : IDay
         {
             int nextX = point.x + nextDir.dx;
             int nextY = point.y + nextDir.dy;
-            if (nextX < 0 || nextX > xy[point.x].Length - 1 || nextY < 0 || nextY > xy.Length - 1)
+            if (IsOutOfBounds(xy, nextX, nextY))
             {
                 continue;
             }
