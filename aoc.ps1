@@ -9,7 +9,7 @@ function Invoke-Run() {
 }
 
 function Invoke-Test() {
-    & dotnet run -c Release --project "$PSScriptRoot/tests/adventofcode2024.UnitTests/adventofcode2024.UnitTests.csproj"
+    & dotnet run -c Release --project "$PSScriptRoot/tests/adventofcode2024.UnitTests/adventofcode2024.UnitTests.csproj" --disable-logo
 }
 
 switch ($Command) {
