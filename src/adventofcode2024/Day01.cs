@@ -19,11 +19,7 @@ public class Day01 : IDay
             var item1 = col1[i];
             var item2 = col2[i];
 
-            if (!rightCounts.ContainsKey(item2))
-            {
-                rightCounts[item2] = 0;
-            }
-
+            rightCounts.TryAdd(item2, 0);
             rightCounts[item2]++;
 
             part1 += Math.Abs(item2 - item1);
