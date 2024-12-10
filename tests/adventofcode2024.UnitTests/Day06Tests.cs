@@ -14,7 +14,7 @@ public class Day06Tests
         ........#.
         #.........
         ......#...
-        """, 41, 0)]
+        """, 41, 6)]
     public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
         var actualAnswer = new Day06().Solve(input.Split(Environment.NewLine));

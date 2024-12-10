@@ -35,9 +35,46 @@ public partial class Day06 : IDay
             return c;
         }).ToArray()).ToArray();
 
-        var patrol = new HashSet<XY>([guard]);
+        var patrol = Patrol(guard, grid, out var _);
+
+        part1 += patrol.Count;
+
+        foreach (var p in patrol)
+        {
+            if (p.Key == guard)
+            {
+                continue;
+            }
+
+            var newGrid = grid.Select(a => a.ToArray()).ToArray();
+            newGrid[p.Key.Y][p.Key.X] = '0';
+
+            Patrol(guard, newGrid, out var isInfiniteLoop);
+
+            if (isInfiniteLoop)
+            {
+                part2++;
+            }
+        }
+
+        return new Answer()
+        {
+            Part1 = part1,
+            Part2 = part2
+        };
+    }
+
+    private Dictionary<XY, HashSet<XY>> Patrol(XY guard, char[][] grid, out bool isInfiniteLoop)
+    {
+        isInfiniteLoop = false;
+        var patrol = new Dictionary<XY, HashSet<XY>>()
+        {
+            [guard] = [Directions.Up]
+        };
+
+        var dir = Directions.Up;
         var leftTheArea = false;
-        while (!leftTheArea)
+        while (!leftTheArea && !isInfiniteLoop)
         {
             var next = new XY(guard.X + dir.X, guard.Y + dir.Y);
             leftTheArea = next.X < 0 || next.Y < 0 || next.X >= grid[0].Length || next.Y >= grid.Length;
@@ -46,10 +83,18 @@ public partial class Day06 : IDay
                 break;
             }
 
-            var collision = grid[next.Y][next.X] == '#';
+            var c = grid[next.Y][next.X];
+            var collision = c == '#' || c == '0';
             if (!collision)
             {
-                patrol.Add(next);
+                patrol.TryAdd(next, []);
+                if (patrol[next].Contains(dir))
+                {
+                    isInfiniteLoop = true;
+                    break;
+                }
+
+                patrol[next].Add(dir);
                 guard = next;
             }
             else
@@ -58,12 +103,6 @@ public partial class Day06 : IDay
             }
         }
 
-        part1 += patrol.Count;
-
-        return new Answer()
-        {
-            Part1 = part1,
-            Part2 = part2
-        };
+        return patrol;
     }
 }
