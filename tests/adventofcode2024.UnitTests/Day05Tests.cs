@@ -32,7 +32,7 @@ public class Day05Tests
         75,97,47,61,53
         61,13,29
         97,13,75,29,47
-        """, 143, 0)]
+        """, 143, 123)]
     public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
         var actualAnswer = new Day05().Solve(input.Split(Environment.NewLine));
