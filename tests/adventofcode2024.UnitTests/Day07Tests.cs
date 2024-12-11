@@ -13,7 +13,7 @@ public class Day07Tests
         192: 17 8 14
         21037: 9 7 18 13
         292: 11 6 16 20
-        """, 3749, 0)]
+        """, 3749, 11387)]
     public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
         var actualAnswer = new Day07().Solve(input.Split(Environment.NewLine));

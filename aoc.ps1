@@ -8,11 +8,11 @@ param(
 )
 
 function Invoke-Run() {
-    & dotnet run -c Release --project "$PSScriptRoot/src/adventofcode2024.console/adventofcode2024.console.csproj"
+    & dotnet run -c Debug --project "$PSScriptRoot/src/adventofcode2024.console/adventofcode2024.console.csproj"
 }
 
 function Invoke-Test() {
-    & dotnet run -c Release --project "$PSScriptRoot/tests/adventofcode2024.UnitTests/adventofcode2024.UnitTests.csproj" --disable-logo
+    & dotnet run -c Debug --project "$PSScriptRoot/tests/adventofcode2024.UnitTests/adventofcode2024.UnitTests.csproj" --disable-logo
 }
 
 function Invoke-CreateFromTemplate($TemplatePath, $Day) {
