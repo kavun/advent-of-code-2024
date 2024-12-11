@@ -1,5 +1,7 @@
 # Advent of Code 2024
 
+<img src="image.png" align="right">
+
 https://adventofcode.com/2024 solutions in C#.
 
 ## Installation
