@@ -16,6 +16,7 @@ public partial class Day07 : IDay
             var operands = parts[1].Trim().Split(' ').Select(long.Parse).ToArray();
             var operatorSlots = operands.Length - 1;
             var permutations = Math.Pow(2, operatorSlots);
+            var foundPart1 = false;
 
             for (var permutation = 0; permutation < permutations; permutation++)
             {
@@ -34,13 +35,24 @@ public partial class Day07 : IDay
                         '*' => accumulatedValue * next,
                         _ => throw new Exception("Invalid operator")
                     };
+
+                    if (accumulatedValue > testValue)
+                    {
+                        break;
+                    }
                 }
 
                 if (accumulatedValue == testValue)
                 {
                     part1 += testValue;
+                    foundPart1 = true;
                     break;
                 }
+            }
+
+            if (foundPart1)
+            {
+                continue;
             }
 
             var permutationsPart2 = Math.Pow(3, operatorSlots);
