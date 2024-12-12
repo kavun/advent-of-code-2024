@@ -2,7 +2,10 @@
 
 <img src="image.png" align="right">
 
-https://adventofcode.com/2024 solutions in C#.
+[Advent of Code 2024](https://adventofcode.com/2024) solutions in C#.
+
+![GitHub branch check runs](https://img.shields.io/github/check-runs/kavun/advent-of-code-2024/main)
+![GitHub License](https://img.shields.io/github/license/kavun/advent-of-code-2024)
 
 ## Installation
 
