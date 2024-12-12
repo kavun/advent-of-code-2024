@@ -2,6 +2,8 @@
 
 public class Day01 : IDay
 {
+    public static string? Name => "Day 1: Historian Hysteria";
+
     public Answer Solve(IEnumerable<string> lines)
     {
         var pairs = lines

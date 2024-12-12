@@ -4,6 +4,8 @@ namespace adventofcode2024;
 
 public partial class Day03 : IDay
 {
+    public static string? Name => "Day 3: Mull It Over";
+
     public Answer Solve(IEnumerable<string> lines)
     {
         var part1 = 0L;

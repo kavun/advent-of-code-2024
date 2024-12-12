@@ -2,6 +2,8 @@
 
 public class Day02 : IDay
 {
+    public static string? Name => "Day 2: Red-Nosed Reports";
+
     public Answer Solve(IEnumerable<string> lines)
     {
         var part1 = 0L;

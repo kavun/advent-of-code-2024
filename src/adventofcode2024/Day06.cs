@@ -2,6 +2,8 @@
 
 public partial class Day06 : IDay
 {
+    public static string? Name => "Day 6: Guard Gallivant";
+
     public record struct XY(int X, int Y);
     public static class Directions
     {

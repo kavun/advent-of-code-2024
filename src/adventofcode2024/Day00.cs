@@ -2,6 +2,8 @@
 
 public partial class Day00 : IDay
 {
+    public static string? Name => "";
+
     public Answer Solve(IEnumerable<string> lines)
     {
         var part1 = 0L;

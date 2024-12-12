@@ -2,6 +2,7 @@ namespace adventofcode2024;
 
 public partial class Day08 : IDay
 {
+    public static string? Name => "Day 8: Resonant Collinearity";
 
     public Answer Solve(IEnumerable<string> lines)
     {
