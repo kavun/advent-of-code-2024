@@ -27,16 +27,41 @@ public partial class Day08 : IDay
             {
                 foreach (var antB in freqAntennas.Where(a => a != antA))
                 {
-                    var diff = new XY(antA.X - antB.X, antA.Y - antB.Y);
-                    var l = new XY(antA.X + diff.X, antA.Y + diff.Y);
-                    var r = new XY(antB.X + -diff.X, antB.Y + -diff.Y);
-                    List<XY> options = [l, r];
-                    foreach (var option in options)
+                    if (antiAntennas.Add(antA))
                     {
-                        if (IsInBounds(grid, option) && !antiAntennas.Contains(option))
+                        part2++;
+                    }
+
+                    if (antiAntennas.Add(antB))
+                    {
+                        part2++;
+                    }
+
+                    var diff1 = new XY(antA.X - antB.X, antA.Y - antB.Y);
+                    var diff2 = new XY(-(antA.X - antB.X), -(antA.Y - antB.Y));
+                    var option1 = new XY(antA.X + diff1.X, antA.Y + diff1.Y);
+                    var option2 = new XY(antB.X + diff2.X, antB.Y + diff2.Y);
+                    List<(XY, XY)> options = [(option1, diff1), (option2, diff2)];
+                    foreach (var (option, diff) in options)
+                    {
+                        if (IsInBounds(grid, option))
                         {
-                            antiAntennas.Add(option);
-                            part1++;
+                            if (antiAntennas.Add(option))
+                            {
+                                part1++;
+                            }
+
+                            var next = option;
+                            var nextInBounds = true;
+                            while (nextInBounds)
+                            {
+                                next = new XY(next.X + diff.X, next.Y + diff.Y);
+                                nextInBounds = IsInBounds(grid, next);
+                                if (nextInBounds && antiAntennas.Add(next))
+                                {
+                                    part2++;
+                                }
+                            }
                         }
                     }
                 }
@@ -46,13 +71,13 @@ public partial class Day08 : IDay
         return new Answer()
         {
             Part1 = part1,
-            Part2 = part2
+            Part2 = part1 + part2
         };
     }
 
     public static bool IsInBounds(char[][] grid, XY xy) =>
         xy.X >= 0 && xy.X < grid[0].Length && xy.Y >= 0 && xy.Y < grid.Length;
-    
+
     public record struct XY(int X, int Y)
     {
         public override readonly string ToString() => $"({X}, {Y})";
