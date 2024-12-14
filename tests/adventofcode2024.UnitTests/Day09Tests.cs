@@ -6,6 +6,9 @@ public class Day09Tests
     [Arguments("""
         2333133121414131402
         """, 1928, 0)]
+    [Arguments("""
+        12345
+        """, 60, 0)]
     public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
         var actualAnswer = new Day09().Solve(input.Split(Environment.NewLine));
