@@ -13,9 +13,8 @@ public partial class Day11 : IDay
         var line = lines.FirstOrDefault() ?? string.Empty;
         var stones = line.Split(' ').Select(long.Parse);
 
-        var finalStones = BlinkTimes(stones, 25);
-        
-        part1 += finalStones.Count;
+        part1 += stones.Sum(s => GetBlinkedCount(s, 25));
+        part2 += stones.Sum(s => GetBlinkedCount(s, 75));
 
         return new Answer()
         {
@@ -24,21 +23,21 @@ public partial class Day11 : IDay
         };
     }
 
-    public ICollection<long> BlinkTimes(IEnumerable<long> stones, int blinkTimes)
-    {
-        return stones
-            .SelectMany(s => BlinkStone(s, blinkTimes))
-            .ToArray();
-    }
+    private readonly Dictionary<(long, int), long> _resultCountByStoneBlinksLeft = [];
 
-    private IEnumerable<long> BlinkStone(long stone, int blinkTimes)
+    private long GetBlinkedCount(long stone, int blinkTimes)
     {
         if (blinkTimes == 0)
         {
-            return [stone];
+            return 1;
         }
 
         blinkTimes--;
+        
+        if (_resultCountByStoneBlinksLeft.TryGetValue((stone, blinkTimes), out var cachedCount))
+        {
+            return cachedCount;
+        }
 
         var stones = new List<long>();
 
@@ -61,6 +60,10 @@ public partial class Day11 : IDay
             stones.Add(stone * 2024);
         }
 
-        return stones.SelectMany(s => BlinkStone(s, blinkTimes));
+        var count = stones.Sum(s => GetBlinkedCount(s, blinkTimes));
+
+        _resultCountByStoneBlinksLeft.TryAdd((stone, blinkTimes), count);
+
+        return count;
     }
 }
