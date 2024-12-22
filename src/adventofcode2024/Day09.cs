@@ -36,7 +36,7 @@ public partial class Day09 : IDay
         var part2 = 0L;
         var line = lines.First().ToCharArray().Select(c => int.Parse(c.ToString())).ToArray();
         var fileR = (int)Math.Ceiling(line.Length / 2m) - 1;
-        Console.WriteLine($"Files: {fileR}");
+        //Console.WriteLine($"Files: {fileR}");
         var fileL = 0;
 
         //var state = "";
@@ -150,7 +150,7 @@ public partial class Day09_BadAttempt
         var line = lines.First().ToCharArray().Select(c => int.Parse(c.ToString())).ToArray();
         var pos = 0;
         var fileR = (int)Math.Ceiling(line.Length / 2m) - 1;
-        Console.WriteLine($"Files: {fileR}");
+        //Console.WriteLine($"Files: {fileR}");
         var fileL = 0;
 
         var state = "";
