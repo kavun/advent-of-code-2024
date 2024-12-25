@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace adventofcode2024;
 
 public partial class Day12 : IDay
@@ -33,6 +35,7 @@ public partial class Day12 : IDay
                 var region = GetAdjacentPlots(garden, visited, plot);
 
                 part1 += region.Length * region.Sum(a => a.exposedPerimeter);
+                part2 += region.Length * region.Sum(a => a.corners);
             }
         }
 
@@ -43,9 +46,10 @@ public partial class Day12 : IDay
         };
     }
 
-    private (XY plot, int exposedPerimeter)[] GetAdjacentPlots(char[][] garden, HashSet<XY> visited, XY plot)
+    private (XY plot, int exposedPerimeter, int corners)[] GetAdjacentPlots(char[][] garden, HashSet<XY> visited, XY plot)
     {
         visited.Add(plot);
+
         var y = plot.Y;
         var x = plot.X;
         var crop = garden[y][x];
@@ -57,13 +61,50 @@ public partial class Day12 : IDay
                 new(x, y + 1)
             })
             .Where(adj => InBounds(garden, adj))
-            .Where(adj => crop == garden[adj.Y][adj.X]);
-        
-        var adjacentCount = adjacentPlots.Count();
+            .Where(adj => crop == garden[adj.Y][adj.X])
+            .ToHashSet();
+
+        var diagonalPlots = (new List<XY>
+            {
+                new(x - 1, y - 1),
+                new(x - 1, y + 1),
+                new(x + 1, y - 1),
+                new(x + 1, y + 1)
+            })
+            .Where(adj => InBounds(garden, adj))
+            .Where(adj => crop == garden[adj.Y][adj.X])
+            .ToHashSet();
+
+        var outerCorners = (new List<(XY, XY)>()
+            {
+                (new XY(x - 1, y), new XY(x, y - 1)),
+                (new XY(x + 1, y), new XY(x, y - 1)),
+                (new XY(x + 1, y), new XY(x, y + 1)),
+                (new XY(x - 1, y), new XY(x, y + 1))
+            })
+            .Where((t) => !adjacentPlots.Contains(t.Item1) && !adjacentPlots.Contains(t.Item2))
+            .Count();
+
+        var corners = 0;
+        corners += outerCorners;
+
+        var innerCorners = (new List<(XY, XY, XY)>()
+            {
+                (new XY(x - 1, y), new XY(x, y - 1), new XY(x - 1, y - 1)),
+                (new XY(x + 1, y), new XY(x, y - 1), new XY(x + 1, y - 1)),
+                (new XY(x + 1, y), new XY(x, y + 1), new XY(x + 1, y + 1)),
+                (new XY(x - 1, y), new XY(x, y + 1), new XY(x - 1, y + 1))
+            })
+            .Where((t) => adjacentPlots.Contains(t.Item1) && adjacentPlots.Contains(t.Item2) && !diagonalPlots.Contains(t.Item3))
+            .Count();
+
+        corners += innerCorners;
+
+        var adjacentCount = adjacentPlots.Count;
         var unvisitedAdjPlots = adjacentPlots.Where(visited.Add).ToArray();
 
         return [
-            (plot, 4 - adjacentCount),
+            (plot, 4 - adjacentCount, corners),
             ..unvisitedAdjPlots.SelectMany(adj => GetAdjacentPlots(garden, visited, adj))
         ];
     }
