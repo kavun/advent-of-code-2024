@@ -64,38 +64,38 @@ public partial class Day12 : IDay
             .Where(adj => crop == garden[adj.Y][adj.X])
             .ToHashSet();
 
-        var diagonalPlots = (new List<XY>
+        var diagonalPlots = new List<XY>
             {
                 new(x - 1, y - 1),
                 new(x - 1, y + 1),
                 new(x + 1, y - 1),
                 new(x + 1, y + 1)
-            })
+            }
             .Where(adj => InBounds(garden, adj))
             .Where(adj => crop == garden[adj.Y][adj.X])
             .ToHashSet();
 
-        var outerCorners = (new List<(XY, XY)>()
+        var outerCorners = new List<(XY L, XY R)>()
             {
                 (new XY(x - 1, y), new XY(x, y - 1)),
                 (new XY(x + 1, y), new XY(x, y - 1)),
                 (new XY(x + 1, y), new XY(x, y + 1)),
                 (new XY(x - 1, y), new XY(x, y + 1))
-            })
-            .Where((t) => !adjacentPlots.Contains(t.Item1) && !adjacentPlots.Contains(t.Item2))
+            }
+            .Where((t) => !adjacentPlots.Contains(t.L) && !adjacentPlots.Contains(t.R))
             .Count();
 
         var corners = 0;
         corners += outerCorners;
 
-        var innerCorners = (new List<(XY, XY, XY)>()
+        var innerCorners = new List<(XY L, XY R, XY Diag)>()
             {
                 (new XY(x - 1, y), new XY(x, y - 1), new XY(x - 1, y - 1)),
                 (new XY(x + 1, y), new XY(x, y - 1), new XY(x + 1, y - 1)),
                 (new XY(x + 1, y), new XY(x, y + 1), new XY(x + 1, y + 1)),
                 (new XY(x - 1, y), new XY(x, y + 1), new XY(x - 1, y + 1))
-            })
-            .Where((t) => adjacentPlots.Contains(t.Item1) && adjacentPlots.Contains(t.Item2) && !diagonalPlots.Contains(t.Item3))
+            }
+            .Where((t) => adjacentPlots.Contains(t.L) && adjacentPlots.Contains(t.R) && !diagonalPlots.Contains(t.Diag))
             .Count();
 
         corners += innerCorners;
