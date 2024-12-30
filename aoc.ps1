@@ -37,6 +37,11 @@ function Invoke-CreateFromTemplate($TemplatePath, $Day) {
 }
 
 function Invoke-NewDay($Day) {
+    if (!($Day -match '^[0-9]+$')) {
+        Write-Host "day must be an int"
+        return
+    }
+
     $Day = $Day.ToString().Trim().TrimStart('0')
     $Day = $Day.PadLeft(2, '0')
 
