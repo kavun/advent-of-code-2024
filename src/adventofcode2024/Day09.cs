@@ -6,6 +6,121 @@ public partial class Day09 : IDay
 
     public Answer Solve(IEnumerable<string> lines)
     {
+        var part1 = 0L;
+        var part2 = 0L;
+        var line = lines.First().ToCharArray().Select(c => long.Parse(c.ToString())).ToArray();
+
+        var part1Disk = new List<long?>();
+        var file = 0;
+        var files = new Dictionary<long, (long Count, long StartPos)>();
+        var spaces = new List<(long count, long pos)>();
+        var pos = 0L;
+        for (var i = 0; i < line.Length; i++)
+        {
+            var space = i % 2 != 0;
+            var count = line[i];
+
+            if (space)
+            {
+                spaces.Add((count, pos));
+            }
+            else
+            {
+                files.Add(file, (count, pos));
+            }
+            pos += count;
+
+            while (count > 0)
+            {
+                part1Disk.Add(space ? null : file);
+                count--;
+            }
+            if (!space)
+            {
+                file++;
+            }
+        }
+
+        for (var i = 0; i < part1Disk.Count; i++)
+        {
+            if (part1Disk[i] == null)
+            {
+                while (part1Disk.Last() == null)
+                {
+                    part1Disk.RemoveAt(part1Disk.Count - 1);
+                }
+
+                if (part1Disk.Count - 1 <= i)
+                {
+                    break;
+                }
+
+                part1Disk[i] = part1Disk.Last();
+                part1Disk.RemoveAt(part1Disk.Count - 1);
+            }
+        }
+
+        while (part1Disk.Last() == null)
+        {
+            part1Disk.RemoveAt(part1Disk.Count - 1);
+        }
+
+        part1 = part1Disk.Select((v, i) => v!.Value * i).Sum();
+
+        var part2Disk = new List<long?>();
+        while (file > 0)
+        {
+            file--;
+            var (fileCount, filePos) = files[file];
+            for (var i = 0; i < spaces.Count; i++)
+            {
+                var (spaceCount, spacePos) = spaces[i];
+                if (spacePos >= filePos)
+                {
+                    spaces = spaces[..i];
+                    break;
+                }
+
+                if (fileCount <= spaceCount)
+                {
+                    files[file] = (fileCount, spacePos);
+
+                    if (fileCount == spaceCount)
+                    {
+                        spaces.RemoveAt(i);
+                    }
+                    else
+                    {
+                        spaces[i] = (spaceCount - fileCount, spacePos + fileCount);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        foreach (var f in files)
+        {
+            for (var i = 0; i < f.Value.Count; i++)
+            {
+                part2 += f.Key * (f.Value.StartPos + i);
+            }
+        }
+
+        return new Answer()
+        {
+            Part1 = part1,
+            Part2 = part2
+        };
+    }
+}
+
+public partial class Day09_Attempt2 : IDay
+{
+    public static string? Name => "Day 9: Disk Fragmenter";
+
+    public Answer Solve(IEnumerable<string> lines)
+    {
         // 12345
         //
         // 0..111....22222
@@ -113,7 +228,7 @@ public partial class Day09 : IDay
     }
 }
 
-public partial class Day09_BadAttempt
+public partial class Day09_Attempt1
 {
     public static string? Name => "Day 9: Disk Fragmenter";
 

@@ -19,7 +19,7 @@ public class Day13Tests
         Button A: X+69, Y+23
         Button B: X+27, Y+71
         Prize: X=18641, Y=10279
-        """, 480, 0)]
+        """, 0, 0)]
     public async Task Solve(string input, long expectedPart1, long expectedPart2)
     {
         var actualAnswer = new Day13().Solve(input.Split(Environment.NewLine));

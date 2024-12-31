@@ -105,7 +105,7 @@ public partial class Day13 : IDay
             return x / ax * 3;
         }
 
-        Console.WriteLine(machine);
+        //Console.WriteLine(machine);
         return 0;
     }
 }
