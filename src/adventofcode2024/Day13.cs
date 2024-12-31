@@ -32,6 +32,9 @@ public partial class Day13 : IDay
         public int BY { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+        public long X2 { get; set; }
+        public long Y2 { get; set; }
+
         public override string ToString()
         {
             return $"A: ({AX},{AY}) B: ({BX},{BY}) Prize: ({X},{Y})";
@@ -60,6 +63,8 @@ public partial class Day13 : IDay
                 var n = strings.Select(h => int.Parse(h.Split("=")[1])).ToArray();
                 machine.X = n[0];
                 machine.Y = n[1];
+                machine.X2 = machine.X + 10000000000000L;
+                machine.Y2 = machine.Y + 10000000000000L;
             }
             else
             {
@@ -86,10 +91,8 @@ public partial class Day13 : IDay
         }
     }
 
-    private long GetMinimumTokens(Machine machine)
+    private long GetMinimumTokensTo(long x, long y, Machine machine)
     {
-        var x = machine.X;
-        var y = machine.Y;
         var ax = machine.AX;
         var ay = machine.AY;
         var bx = machine.BX;
