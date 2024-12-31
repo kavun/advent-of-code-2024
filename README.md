@@ -35,3 +35,10 @@ and the unit test file for a given day.
 ```powershell
 ./aoc.ps1 test
 ```
+
+## Notes
+
+### Day 09
+
+Took two attempts to get Part 1 right, and even then didn't like my solution.
+So I cheated off of HyperNeutrino's solution for Part 2. https://www.youtube.com/watch?v=5_GstsPDI-Q
