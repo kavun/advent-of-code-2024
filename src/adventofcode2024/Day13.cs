@@ -105,7 +105,21 @@ public partial class Day13 : IDay
             return x / ax * 3;
         }
 
-        //Console.WriteLine(machine);
+        var cbx = x;
+        var cby = y;
+        while (cbx > 0 && cby > 0)
+        {
+            cbx -= bx;
+            cby -= by;
+
+            if (cbx % ax == 0 && cby % ay == 0 && cbx / ax == cby / ay)
+            {
+                var costA = cbx / ax * 3;
+                var costB = (x - cbx) / bx;
+                return costA + costB;
+            }
+        }
+
         return 0;
     }
 }
